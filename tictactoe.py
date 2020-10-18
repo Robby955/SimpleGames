@@ -1,5 +1,13 @@
 # Simple tic tac toe in python utilizing list comprehensions to check for winners
 
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 16 22:34:13 2020
+
+@author: User
+"""
+
+
 
 import sys
 
@@ -25,7 +33,16 @@ def makeMove(current_board):
         print(f'Congratulations, {current_player} wins!')
     
     if gameOver==False:
-        move=int(input("Enter your move: "))-1
+        
+        move=input("Enter your move: ")
+        move=int(move)-1
+
+
+        
+        if isinstance(move,int) != True or move>dim or move<0:
+            print("That is not a valid move, try againZz")
+            switchPlayer()
+        
         if board[move]=='-':
             if current_player=='X':
                 board[move]="X"
@@ -48,7 +65,17 @@ def ticTacToe():
     global dim
     global isTie
     isTie=False
-    k=int(input("Enter the dimension: N "))
+    
+    
+    while True:
+        k=int(input("Please enter the dimension "))
+        if k<=2:
+            print("Sorry, the dimension must be greater than 2. Try again ")
+            continue
+        else:
+            break
+
+   # k=int(input("Enter the dimension: N "))
     dim=k**2
     board=printEmptyBoard(k)
     
@@ -127,7 +154,10 @@ def checkRows():
             continue
             #print(f"No Winner on Row {z}")
     
-
+    # Check Cols
+    
+    #board=['+','-','-','+','-','-','+','-','-'] # Col Winner
+    #board=['-','+','-','-','+','-','-','+','-'] #Col Winner
     
     
 def checkColumns():
@@ -165,7 +195,13 @@ def checkRight():
     elif 'X' not in listComp and '-' not in listComp:
         print(f'Winner on right diagonal with symbol O')
         gameOver=True
+    
 
+
+
+        
+  # board=['x',"x",'o','o','x','x','o','o','x']
+    
 
 def checkTies():
     global gameOver
@@ -176,3 +212,4 @@ def checkTies():
             gameOver=True
             isTie=True
                 
+
