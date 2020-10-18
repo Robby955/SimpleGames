@@ -1,16 +1,10 @@
 # Simple tic tac toe in python utilizing list comprehensions to check for winners
-
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Oct 16 22:34:13 2020
-
-@author: User
-"""
-
-
+# To run the game, load the file and type ticTacToe() in the console.
 
 import sys
 
+
+# Method to switch the player.
 def switchPlayer():
     global current_player
     if current_player=='X':
@@ -20,18 +14,21 @@ def switchPlayer():
     return(current_player)
 
 
+#Method that makes the actual move.
 def makeMove(current_board):
-    
+    # Check for winners
     checkRows()
     checkColumns()
     checkLeft()
     checkRight()
     checkTies()
     
+    # If the game is over and it isn't a tie
     if gameOver==True and isTie==False:
         switchPlayer()
         print(f'Congratulations, {current_player} wins!')
     
+    # If the game is still going
     if gameOver==False:
         
         move=input("Enter your move: ")
@@ -42,7 +39,7 @@ def makeMove(current_board):
         if isinstance(move,int) != True or move>dim or move<0:
             print("That is not a valid move, try againZz")
             switchPlayer()
-        
+        # Make sure it is a blank space, if not prompt user to try again
         if board[move]=='-':
             if current_player=='X':
                 board[move]="X"
@@ -54,7 +51,7 @@ def makeMove(current_board):
             switchPlayer()
 
 
-
+# Main function, define key variables. While game is still going, do next move.
 def ticTacToe():
     global current_player
     current_player="X"
@@ -75,7 +72,6 @@ def ticTacToe():
         else:
             break
 
-   # k=int(input("Enter the dimension: N "))
     dim=k**2
     board=printEmptyBoard(k)
     
@@ -88,23 +84,6 @@ def ticTacToe():
     while gameOver==False:
         makeMove(board)
         switchPlayer()
-    
-
-
-
-
-# Gather Information on Player
-
-def getParameters():
-    k=int(input("Enter the dimension N: "))
-    name=input("Enter your name: ")
-    print(f"Hello {name}")
-    print('\n')
-    return(k)
-           
-# Create an empty board
-
-
 
 
 # Makes an empty board of dimension K
@@ -112,7 +91,7 @@ def printEmptyBoard(k):
     dim=k**2
     global board
     board=['-']*dim
-    getStop=[(n*k)-1 for n in range(1,1000)]
+    getStop=[(n*k)-1 for n in range(1,100)]
     for i in range(dim):
        if i not in getStop:
             print(board[i]+'|',end='')
@@ -133,10 +112,6 @@ def printDisplay(k):
 
 # Check for winners, if there is a winner, return it and set boolean of continueGame off
 
-
-
-    
-    
 def checkRows():
     z=1
     #getEnd=[n*k for n in range(1,1000)]
@@ -152,14 +127,7 @@ def checkRows():
                #z=z+1
         else:
             continue
-            #print(f"No Winner on Row {z}")
-    
-    # Check Cols
-    
-    #board=['+','-','-','+','-','-','+','-','-'] # Col Winner
-    #board=['-','+','-','-','+','-','-','+','-'] #Col Winner
-    
-    
+  
 def checkColumns():
     for i in range(k):
         listComp=[board[i]==board[i+j*k]!='-' for j in range(k)]
@@ -170,10 +138,7 @@ def checkColumns():
             break
         else:
             continue
-        #listComp=[i+j*k for j in range(k)]
 
-
-    
 def checkLeft():
 
     listComp=[board[i*(k+1)] for i in range(k)]
@@ -184,7 +149,8 @@ def checkLeft():
     elif 'X' not in listComp and '-' not in listComp:
         print(f'Winner on left diagonal with symbol O')
         gameOver=True
-        
+
+# Check the right diagonal
 def checkRight():
         
     listComp=[board[i*(k-1)] for i in range(2,k+1)]
@@ -195,14 +161,8 @@ def checkRight():
     elif 'X' not in listComp and '-' not in listComp:
         print(f'Winner on right diagonal with symbol O')
         gameOver=True
-    
 
-
-
-        
-  # board=['x',"x",'o','o','x','x','o','o','x']
-    
-
+# Check for ties, if the board has no empty spaces and there is still no winner, it is a tie.
 def checkTies():
     global gameOver
     global isTie
